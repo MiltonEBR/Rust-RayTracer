@@ -1,0 +1,2 @@
+# Rust RayTracer
+This is a port of [ScratchAPixel's raytracer](https://github.com/scratchapixel/code/tree/main/introduction-to-ray-tracing) into Rust. I did this as part of my journey of learning both Rust and Computer Graphics. So, expect weird rust code 😅.
