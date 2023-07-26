@@ -1,1 +1,1 @@
-pub mod CustomTypes;
+pub mod customtypes;

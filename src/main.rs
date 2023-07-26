@@ -1,4 +1,4 @@
-use raytracer::CustomTypes::{Vec3, Sphere, mix};
+use raytracer::customtypes::{Vec3, Sphere, mix};
 use std::f64::consts::PI;
 use std::fs;
 use std::io::Write;
@@ -86,7 +86,7 @@ fn trace(ray_orig: &Vec3, ray_dir: &Vec3, spheres: &Vec<Sphere>, depth: i32) -> 
                 light_direction.normalize();
 
                 for (j,s) in spheres.into_iter().enumerate() {
-                    if (i != j){
+                    if i != j {
                         let mut t0 = 0.;
                         let mut t1 = 0.;
                         if s.intersect(&(&p_hit + &n_hit * bias), &light_direction, &mut t0, &mut t1) {
@@ -105,20 +105,20 @@ fn trace(ray_orig: &Vec3, ray_dir: &Vec3, spheres: &Vec<Sphere>, depth: i32) -> 
 }
 
 fn render(spheres: &Vec<Sphere>){
-    const width: usize = 640;
-    const height: usize = 480;
+    const WIDTH: usize = 640;
+    const HEIGHT: usize = 480;
 
     let mut img = Vec::new();
 
 
-    let inv_width = 1. / width as f64;
-    let inv_heigth = 1. / height as f64;
+    let inv_width = 1. / WIDTH as f64;
+    let inv_heigth = 1. / HEIGHT as f64;
     let fov = 30.;
-    let aspect_ratio = width as f64 / height as f64;
+    let aspect_ratio = WIDTH as f64 / HEIGHT as f64;
     let angle = f64::tan(PI * 0.5 * fov / 180.);
 
-    for y in 0..height{
-        for x in 0..width{
+    for y in 0..HEIGHT{
+        for x in 0..WIDTH{
             let xx = (2. * ((x as f64 + 0.5) * inv_width) - 1.) * angle * aspect_ratio;
             let yy = (1. - 2. * ((y as f64 + 0.5) * inv_heigth)) * angle;
             let mut ray_dir = Vec3::new(xx,yy,-1.);
@@ -130,11 +130,11 @@ fn render(spheres: &Vec<Sphere>){
     let file = fs::File::create("img_out.ppm");
     let mut file = file.expect("Could not create file");
     
-    file.write_all(format!("P3\n{} {}\n255\n", width, height).as_bytes()).expect("Error writing header");
+    file.write_all(format!("P3\n{} {}\n255\n", WIDTH, HEIGHT).as_bytes()).expect("Error writing header");
     for pixel in img.into_iter(){
-        let x =((f64::min(1.,pixel.x()) * 255.) as u8);
-        let y =((f64::min(1.,pixel.y()) * 255.) as u8);
-        let z =((f64::min(1.,pixel.z()) * 255.) as u8);
+        let x =(f64::min(1.,pixel.x()) * 255.) as u8;
+        let y =(f64::min(1.,pixel.y()) * 255.) as u8;
+        let z =(f64::min(1.,pixel.z()) * 255.) as u8;
         file
         .write(format!("{} {} {}\n",x, y, z).as_bytes())
         .expect("Error writing buffer");
